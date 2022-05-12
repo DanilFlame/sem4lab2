@@ -1,0 +1,86 @@
+
+namespace ConsoleApp101
+{
+    using System;
+    using System.Diagnostics;
+    class Program
+    {
+        static void Swap(ref int e1, ref int e2)
+        {
+            var temp = e1;
+            e1 = e2;
+            e2 = temp;
+        }
+        static int[] ShakerSort(int[] array)
+        {
+            for (var i = 0; i < array.Length / 2; i++)
+            {
+                var swapFlag = false;
+                //прохід зліва направо
+                for (var j = i; j < array.Length - i - 1; j++)
+                {
+                    if (array[j] > array[j + 1])
+                    {
+                        Swap(ref array[j], ref array[j + 1]);
+                        swapFlag = true;
+                    }
+                }
+
+                //прохід справа наліво
+                for (var j = array.Length - 2 - i; j > i; j--)
+                {
+                    if (array[j - 1] > array[j])
+                    {
+                        Swap(ref array[j - 1], ref array[j]);
+                        swapFlag = true;
+                    }
+                }
+
+                //якщо обмінів не було
+                if (!swapFlag)
+                {
+                    break;
+                }
+            }
+            return array;
+        }
+
+
+        static void printArray(int[] arr)
+        {
+            int n = arr.Length;
+            for (int i = 0; i < n; ++i)
+                Console.Write(arr[i] + " ");
+            Console.WriteLine();
+        }
+
+        static void fillArray(int[] arr)
+        {
+            var rand = new Random(); //random
+            int n = arr.Length;
+            for (int i = 0; i < n; ++i)
+                arr[i] = rand.Next(1, 20 * 8);
+        }
+
+        public static void Main()
+        {
+            int N = 8;
+    
+            var arr = new int[N*10];
+            fillArray(arr);
+            printArray(arr);
+            var sw = new Stopwatch();
+            sw.Start();
+            ShakerSort(arr);
+            sw.Stop();
+            Console.WriteLine("\nВпорядкований масив:\n");
+            printArray(arr);
+            Console.WriteLine("\nЧас виконання:\n");
+            Console.WriteLine(sw.Elapsed);
+
+
+            Console.ReadLine();
+
+        }
+    }
+}
